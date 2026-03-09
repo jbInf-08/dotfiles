@@ -1,0 +1,12 @@
+cat > ~/.nanorc << 'EOF'
+# General settings
+set linenumbers
+set autoindent
+set tabsize 4
+set tabstospaces
+set mouse
+set smooth
+set constantshow
+
+# Syntax highlighting
+include "/usr/share/nano/*.nanorc"
