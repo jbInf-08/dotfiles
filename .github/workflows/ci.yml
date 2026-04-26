@@ -1,0 +1,26 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate-shell-profiles:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - name: Install shellcheck
+        run: sudo apt-get update && sudo apt-get install -y shellcheck
+      - name: Lint bash profile
+        run: shellcheck .bashrc .biostar.sh
+      - name: Bash syntax check
+        run: bash -n .bashrc
+
+  validate-powershell-profile:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - name: PowerShell syntax check
+        shell: pwsh
+        run: |
+          [void][System.Management.Automation.PSParser]::Tokenize((Get-Content powershell_profile.ps1 -Raw), [ref]$null)
