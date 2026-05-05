@@ -12,7 +12,12 @@ jobs:
       - name: Install shellcheck
         run: sudo apt-get update && sudo apt-get install -y shellcheck
       - name: Lint bash profile
-        run: shellcheck .bashrc .biostar.sh
+        # SC1090/SC1091 = unsourceable runtime files (mamba, bash_aliases)
+        # SC2155 = declare-and-assign in one line (Ubuntu default .bashrc)
+        # SC2034 = unused variable (Ubuntu default .bashrc)
+        # SC2016 = single-quoted $ in PS1 prompt strings (intentional)
+        run: |
+          shellcheck -e SC1090,SC1091,SC2155,SC2034,SC2016 .bashrc .biostar.sh
       - name: Bash syntax check
         run: bash -n .bashrc
 
